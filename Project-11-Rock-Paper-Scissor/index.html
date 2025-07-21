@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Reset styles */
+        *, *:before, *:after {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #ffcf1b, #ff8b1b);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 45%;
+            min-width: 500px;
+            background-color: #ffffff;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+        }
+        .scores {
+            margin-bottom: 50px;
+            text-align: right;
+        }
+        .weapons {
+            display: flex;
+            justify-content: space-around;
+        }
+        .weapons button {
+            background-color: #ffd51b;
+            color: #000000;
+            border: none;
+            font-size: 50px;
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .details {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .scores, .details {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            font-size: 15px;
+        }
+        #result {
+            width: 180px;
+            padding: 10px 0;
+            margin: 30px auto;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        #user_choice, #comp_choice {
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+        span {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="scores">
+            <p>Computer: <span id="computer_score">0</span></p>
+            <p>You: <span id="user_score">0</span></p>
+        </div>
+        <div class="weapons">
+            <button onclick="checker('rock')"><i class="far fa-hand-rock"></i></button>
+            <button onclick="checker('paper')"><i class="far fa-hand-paper"></i></button>
+            <button onclick="checker('scissor')"><i class="far fa-hand-scissors"></i></button>
+        </div>
+        <div class="details">
+            <p id="user_choice"></p>
+            <p id="comp_choice"></p>
+            <p id="result"></p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize scores
+        var computer_score = 0; // Score for the computer
+        var user_score = 0; // Score for the user
+
+        // Reference to the result display
+        var result_ref = document.getElementById("result");
+
+        // Choices object to determine the outcome
+        var choices_object = {
+            'rock': { 'rock': 'draw', 'scissor': 'win', 'paper': 'lose' },
+            'scissor': { 'rock': 'lose', 'scissor': 'draw', 'paper': 'win' },
+            'paper': { 'rock': 'win', 'scissor': 'lose', 'paper': 'draw' }
+        };
+
+        // Function to handle the game logic
+        function checker(userChoice) {
+            // Array of choices
+            var choices = ["rock", "paper", "scissor"];
+            // Randomly select a choice for the computer
+            var randomIndex = Math.floor(Math.random() * choices.length);
+            var computerChoice = choices[randomIndex];
+
+            // Display choices
+            document.getElementById("comp_choice").innerHTML = "Computer chose <span>" + computerChoice.toUpperCase() + "</span>";
+            document.getElementById("user_choice").innerHTML = "You chose <span>" + userChoice.toUpperCase () + "</span>";
+
+            // Determine the result
+            var result = choices_object[userChoice][computerChoice];
+
+            // Update scores and result display based on the outcome
+            if (result === 'win') {
+                result_ref.style.backgroundColor = "#cefdce";
+                result_ref.style.color = "#689f38";
+                result_ref.innerHTML = "YOU WIN";
+                user_score++;
+            } else if (result === 'lose') {
+                result_ref.style.backgroundColor = "#ffdde0";
+                result_ref.style.color = "#d32f2f";
+                result_ref.innerHTML = "YOU LOSE";
+                computer_score++;
+            } else {
+                result_ref.style.backgroundColor = "#e5e5e5";
+                result_ref.style.color = "#808080";
+                result_ref.innerHTML = "DRAW";
+            }
+
+            // Update the displayed scores
+            document.getElementById("computer_score").innerHTML = computer_score;
+            document.getElementById("user_score").innerHTML = user_score;
+        }
+    </script>
+</body>
+</html>
